@@ -164,7 +164,7 @@ int main(void){
         }
 
     }else{
-        // Timeout, do nothing
+        // Timeout, do nothing, just continue the loop
 
     }
 
