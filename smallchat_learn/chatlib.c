@@ -12,6 +12,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "chatlib.h"
+
 
 
 int socketSetNonBlockNoDelay(int fd){
@@ -35,9 +37,9 @@ int createTCPServer(int port){
 
     sa.sin_family = AF_INET;
     sa.sin_port = htons(port);
-    sa.sin_addr.s_addr = htonal(INADDR_ANY);
+    sa.sin_addr.s_addr = htonl(INADDR_ANY);
     
-    if(bind(s,(struct socaddr *)&sa,sizeof(sa))==-1 ||
+    if(bind(s,(struct sockaddr *)&sa,sizeof(sa))==-1 ||
        listen(s, 511) == -1) 
     {
         close(s);

@@ -5,7 +5,7 @@
 #include <sys/select.h>
 #include <unistd.h>
 
-#include <chatlib.h>
+#include "chatlib.h"
 
 #define MAX_CLIENTS 100
 #define SERVER_PORT 7711
@@ -29,9 +29,9 @@ struct chatState *Chat;
 struct client *createClient(int fd){
     char name[32];
     int namelen = snprintf(name,sizeof(name), "user:%d",fd);
-    struct client *c = chatMalloc(sizeof(*c));
+    struct client *c = (struct client *)chatMalloc(sizeof(*c));
     c->fd = fd;
-    c->name = chatMalloc(namelen + 1);
+    c->name = (char *)chatMalloc(namelen + 1);
     memcpy(c->name,name,namelen);
     assert(Chat->clients[c->fd]==NULL);
     Chat->clients[c->fd] = c;
@@ -61,7 +61,7 @@ void freeClient(struct client *c){
 }
 
 void initChat(void){
-    Chat = chatMalloc(sizeof(*Chat));
+    Chat = (struct chatState *)chatMalloc(sizeof(*Chat));
     memset(Chat,0,sizeof(*Chat));
     Chat->maxclient = -1;
     Chat->numclients = 0;
@@ -111,7 +111,7 @@ int main(void){
             if(FD_ISSET(Chat->serversock,&readfds)){
                 int fd = acceptClient(Chat->serversock);
                 struct client *c = createClient(fd);
-                char *welcome_msg = "Welcome to the QQ chat!\n Use /name <name> to set your name.\n";
+                char *welcome_msg = (char *)"Welcome to the QQ chat!\n Use /name <name> to set your name.\n";
                 write(c->fd,welcome_msg,strlen(welcome_msg));
                 printf("Connected client fd=%d\n", fd);
         }
@@ -141,7 +141,7 @@ int main(void){
                         if(!strcmp(readbuf,"/name") && arg){
                             free(c->name);
                             int namelen = strlen(arg);
-                            c->name = chatMalloc(namelen +1);
+                            c->name = (char *)chatMalloc(namelen +1);
                             memcpy(c->name,arg,namelen+1);
 
                         }else{

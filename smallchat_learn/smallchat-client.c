@@ -96,6 +96,21 @@ int inputBufferFeedChar(struct InputBuffer *ib, int c) {
     return IB_OK;
 }
 
+void inputBufferHide(struct InputBuffer *ib) {
+    (void)ib; // Not used var, but is conceptually part of the API.
+    terminalCleanCurrentLine();
+    terminalCursorAtLineStart();
+}
+
+void inputBufferShow(struct InputBuffer *ib) {
+    write(fileno(stdout),ib->buf,ib->len);
+}
+
+void inputBufferClear(struct InputBuffer *ib) {
+    ib->len = 0;
+    inputBufferHide(ib);
+}
+
 int main(int argc, char **argv){
     if(argc != 3) {
         printf("Usage: %s <host> <port>\n", argv[0]);
@@ -107,4 +122,53 @@ int main(int argc, char **argv){
         exit(1);
     }
     setRawMode(fileno(stdin),1);
+    fd_set readfds;
+    int stdin_fd = fileno(stdin);
+
+    struct InputBuffer ib;
+    inputBufferShow(&ib);
+
+    while(1){
+        FD_ZERO(&readfds);
+        FD_SET(s,&readfds);
+        FD_SET(stdin_fd,&readfds);
+        int maxfd = s > stdin_fd ? s: stdin_fd;
+        int num_events = select(maxfd+1,&readfds,NULL,NULL,NULL);
+        if(num_events == -1){
+            perror("select() error");
+            exit(1);
+        }else if(num_events){
+            char buf[128];
+            if(FD_ISSET(s,&readfds)){
+                ssize_t count = read(s,buf,sizeof(buf));
+                if(count <=0){
+                    printf("connection lost\n");
+                    exit(1);
+                }
+                inputBufferHide(&ib);
+                write(fileno(stdout),buf,count);
+                inputBufferShow(&ib);
+            }else if(FD_ISSET(stdin_fd,&readfds)){
+                ssize_t count = read(stdin_fd,buf,sizeof(buf));
+
+                for(int j=0;j<count;j++){
+                    int res = inputBufferFeedChar(&ib,buf[j]);
+                    switch(res) {
+                        case IB_GOTLINE:
+                            inputBufferAppend(&ib,'\n');
+                            inputBufferHide(&ib);
+                            write(fileno(stdout),"you>",5);
+                            write(s,ib.buf,ib.len);
+                            inputBufferClear(&ib);
+                            break;
+                        case IB_OK:
+                            break;
+                }
+            }
+        }
+
+    }
+}
+    close(s);
+    return 0;
 }
