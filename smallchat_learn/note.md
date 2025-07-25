@@ -1,4 +1,4 @@
-## 关于TCP socket编程
+## 关于TCP socket接口
 ```c++
 int createTCPServer(int port){
     int s, yes = 1;

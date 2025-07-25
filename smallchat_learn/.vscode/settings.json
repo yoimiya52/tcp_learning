@@ -6,6 +6,19 @@
         "typeinfo": "c",
         "fcntl.h": "c",
         "types.h": "c",
-        "tcp.h": "c"
+        "tcp.h": "c",
+        "errno.h": "c",
+        "stdlib.h": "c",
+        "inet.h": "c",
+        "chatlib.h": "c",
+        "array": "c",
+        "bitset": "c",
+        "string_view": "c",
+        "initializer_list": "c",
+        "ranges": "c",
+        "utility": "c",
+        "string": "c",
+        "socket.h": "c",
+        "in.h": "c"
     }
 }
