@@ -1,0 +1,14 @@
+# Bazel files
+bazel-*
+bazel-bin/
+bazel-out/
+bazel-testlogs/
+build/
+*.runfiles/
+
+# Specific Bazel cache directories
+.external-repos/
+.execroot/
+bazel-cache/
+bazel-install/
+
