@@ -1,16 +1,9 @@
 load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library")
 
-cc_library(
-    name = "hello-greet",
-    srcs = ["hello-greet.cc"],
-    hdrs = ["hello-greet.h"],
+cc_binary(
+    name = "ds_main",
+    srcs = ["main.cpp"],
 )
 
-cc_binary(
-    name = "hello-world",
-    srcs = ["hello-world.cc"],
-    deps = [
-        ":hello-greet",
-        "//01_List:hello-time",
-    ],
-)
+
+

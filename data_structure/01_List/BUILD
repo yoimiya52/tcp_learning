@@ -1,8 +1,6 @@
-load("@rules_cc//cc:defs.bzl", "cc_library")
-
 cc_library(
-    name = "hello-time",
-    srcs = ["hello-time.cc"],
-    hdrs = ["hello-time.h"],
+    name = "linked_list",
+    srcs = ["linked_list.cpp"],
+    hdrs = ["linked_list.h"],
     visibility = ["//visibility:public"],
 )

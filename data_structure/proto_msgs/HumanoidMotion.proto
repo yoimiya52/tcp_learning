@@ -1,0 +1,69 @@
+syntax = "proto2";  
+package tars.motive_msgs;
+
+message Vector3 {
+    required float x = 1;
+    required float y = 2;
+    required float z = 3;
+}
+
+message Quaternion {
+    required float x = 1;
+    required float y = 2;
+    required float z = 3;
+    required float w = 4;
+}
+
+message Marker {
+    // 标记点唯一标识符
+    required int32 id = 1;
+    // 标记点名称
+    optional string name = 2;
+    // 相对于所属节点原点的位置偏移（米）
+    required Vector3 local_position = 3;
+}
+
+message BoneStaticData {
+    // 节点唯一标识符
+    required int32 id = 1;
+    // 节点名称
+    optional string name = 2;
+    // 父节点ID（根节点的parent_id设为-1）
+    required int32 parent_id = 3;
+    // 相对于父节点的偏移位置（米）
+    required Vector3 offset = 4;
+    // 节点上标记点信息（可选）
+    repeated Marker markers = 5;
+}
+
+message BoneDynamicData {
+    // 节点唯一标识符
+    required int32 id = 1;
+    optional string name = 2;
+    // 当前节点在世界坐标系下的实时位置（米）
+    required Vector3 position = 3;
+    // 当前节点在世界坐标系下的实时旋转姿态（四元数）
+    required Quaternion orientation = 4;
+    // 当前节点测量误差（平均值，单位：米）
+    optional float mean_error = 5;
+}
+
+message Skeleton {
+    required int32 id = 1;
+    optional string name = 2;
+    optional int32 n_rigibody = 3;
+    repeated BoneStaticData rigibodyinfo = 4;
+    repeated BoneDynamicData rigibodydync = 5;
+}
+
+message BoneDynamicDataList {
+  required uint64 timestamp = 1;
+  repeated BoneDynamicData bones = 2;
+}
+
+message HumanoidMotion
+{
+    required uint64 timestamp = 1;
+    repeated BoneDynamicData rigibody =2;
+    repeated Skeleton skeleton=3;
+}
