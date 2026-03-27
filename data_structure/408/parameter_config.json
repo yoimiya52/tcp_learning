@@ -1,0 +1,5 @@
+{
+    "/apollo/resources/x_robot_description_path":"X1-18/x_robot_description",
+    "/apollo/resources/config_sys_global_path":"X1-18/robot_configs_awe/X1-18/config/sys/global/global.yaml",
+    "/apollo/resources/calibration_file_path":"X1-18/robot_configs_awe/X1-18/calibration/calibration.yaml"
+}

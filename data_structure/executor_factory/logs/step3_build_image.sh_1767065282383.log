@@ -1,0 +1,4 @@
+[2025-12-30 11:28:02] Start executing script: step3_build_image.sh (path: /home/tars/projects/tcp_learning/data_structure/executor_factory/config/step3_build_image.sh)
+[3/5] 构建 Docker 镜像...
+[2025-12-30 11:28:02] Script succeeded (exit code: 0)
+

@@ -1,0 +1,4 @@
+[2025-12-30 11:28:02] Start executing script: step5_check_output.sh (path: /home/tars/projects/tcp_learning/data_structure/executor_factory/config/step5_check_output.sh)
+[5/5] 检查 Docker 输出...
+[2025-12-30 11:28:02] Script succeeded (exit code: 0)
+

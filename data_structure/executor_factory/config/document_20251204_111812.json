@@ -1,0 +1,88 @@
+{
+  "device": "FC-5",
+  "model": "test",
+  "output_file_path": "/home/tars/projects/tcp_learning/data_structure/executor_factory/logs/",
+  "scripts": [
+    {
+      "script_name": "step1_install_docker.sh",
+      "path": "/home/tars/projects/tcp_learning/data_structure/executor_factory/config/step1_install_docker.sh",
+      "modules": [
+        "start_sensor_node"
+      ],
+      "sensor_models": [
+        "djiliar",
+        "rslidar",
+        "camera"
+      ]
+    },
+    {
+      "script_id": "step2_write_dockerfile.sh",
+      "path": "/home/tars/projects/tcp_learning/data_structure/executor_factory/config/step2_write_dockerfile.sh",
+      "modules": [
+        "monitor"
+      ],
+      "sensor_models": [
+        "software"
+      ]
+    },
+    {
+      "script_id": "step3_build_image.sh",
+      "path": "/home/tars/projects/tcp_learning/data_structure/executor_factory/config/step3_build_image.sh",
+      "modules": [
+        "faultreporter"
+      ],
+      "sensor_models": [
+        "software"
+      ]
+    },
+    {
+      "script_id": "step4_run_container.sh",
+      "path": "/home/tars/projects/tcp_learning/data_structure/executor_factory/config/step4_run_container.sh",
+      "modules": [
+        "monitor"
+      ],
+      "sensor_models": [
+        "software"
+      ]
+    },
+    {
+      "script_id": "step5_check_output.sh",
+      "path": "/home/tars/projects/tcp_learning/data_structure/executor_factory/config/step5_check_output.sh",
+      "modules": [
+        "monitor"
+      ],
+      "sensor_models": [
+        "software"
+      ]
+    }
+  ],
+  "flow": [
+    {
+      "step_type": "common",
+      "script_name": "step1_install_docker.sh",
+      "condition": "device_model == \"FC-5\"",
+      "async" : false
+    },
+    {
+      "step_type": "common",
+      "script_name": "step2_write_dockerfile.sh",
+      "condition": "device_model == \"FC-5\"",
+      "async" : false
+    },
+    {
+      "step_type": "common",
+      "script_name": "step3_build_image.sh",
+      "condition": "runtime_data.error == \"false\""
+    },
+    {
+      "step_type": "common",
+      "script_name": "step4_run_container.sh",
+      "condition": "runtime_data.error == \"false\""
+    },
+    {
+      "step_type": "common",
+      "script_name": "step5_check_output.sh",
+      "condition": "runtime_data.error == \"false\""
+    }
+  ]
+}
